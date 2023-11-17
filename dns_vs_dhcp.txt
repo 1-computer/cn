@@ -1,0 +1,7 @@
+S.NO	DNS	DHCP
+1.	DNS stands for Domain Name System.	While DHCP stands for Dynamic Host Configuration Protocol.
+2.	It works in 53 port number.	While it works in 67 and 68 port number.
+3.	The protocol supported by DNS are: UDP and TCP.	While in this only UDP protocol is used.
+4.	DNS is decentralized system.	While DHCP is centralized system.
+5.	In DNS, with the help of DNS server, domain names are translated into IP addresses and IP addresses are translated into domain names.	While in DHCP, DHCP server is used to configures the hosts mechanically.
+6.	With the help of DNS, we don’t need to remember the IP address.	It is reliable IP configuration.
