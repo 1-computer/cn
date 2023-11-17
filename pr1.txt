@@ -1,0 +1,16 @@
+prac 1 :
+RJ45 ethernet connector
+FD-S501A Wire stripper to remove upper layer
+Cat5,Cat5e, Cat6 cable
+Crimping tool to cut cables
+
+SEQUENCE: 
+
+white org
+orange
+white green
+blue
+white blue
+green
+white brown
+brown
