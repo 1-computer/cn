@@ -1,0 +1,314 @@
+Computer Networks Lab 1
+Assignment - 6
+Problem Definition:
+Write a program using UDP Sockets to enable file transfer (Script, Text, Audio and Video one
+file each) between two machines. Demonstrate the packets captured traces using Wireshark
+Packet Analyzer Tool for peer to peer mode.
+Objective:
+ Create UDP Socket.
+ Send the file.
+Theory:
+A transport layer protocol usually has several responsibilities. One is to create a process-toprocess communication; UDP uses port numbers to accomplish this. Another responsibility is to
+provide control mechanisms at the transport level. UDP does this task at a very minimal level.
+There is no flow control mechanism and there is no acknowledgment for received packets. UDP,
+however, does provide error control to some extent. If UDP detects an error in the received
+packet, it silently drops it. UDP is a connectionless, unreliable transport protocol. It does not add
+anything to the services of IP except for providing process-to-process communication instead of
+host-to-host communication. UDP packets, called user datagrams, have a fixed-size header of 8
+bytes.
+❑ Source port number. This is the port number used by the process running on the source host. It
+is 16 bits long, which means that the port number can range from 0 to 65,535. If the source host
+is the client (a client sending a request), the port number, in most cases, is an ephemeral port
+number requested by the process and chosen by the UDP software running on the source host. If
+the source host is the server (a server sending a response), the port number, in most cases, is a
+well-known port number.
+Computer Networks Lab 2
+Figure 1: User datagram format
+❑ Destination port number. This is the port number used by the process running on the
+destination host. It is also 16 bits long. If the destination host is the server (a client sending a
+request), the port number, in most cases, is a well-known port number. If the destination host is
+the client (a server sending a response), the port number, in most cases, is an ephemeral port
+number. In this case, the server copies the ephemeral port number it has received in the request
+packet.
+❑ Length. This is a 16-bit field that defines the total length of the user datagram, header plus
+data. The 16 bits can define a total length of 0 to 65,535 bytes. How- ever, the total length needs
+to be much less because a UDP user datagram is stored in an IP datagram with the total length of
+65,535 bytes. The length field in a UDP user datagram is actually not necessary. A user datagram
+is encapsulated in an IP datagram. There is a field in the IP datagram that defines the total length.
+There is another field in the IP datagram that defines the length of the header. So if we subtract
+the value of the second field from the first, we can deduce the length of the UDP datagram that is
+encapsulated in an IP datagram.
+UDP length = IP length − IP header’s length
+However, the designers of the UDP protocol felt that it was more efficient for the
+destination UDP to calculate the length of the data from the information provided in the UDP
+user datagram rather than ask the IP software to supply this information. We should remember
+Computer Networks Lab 3
+that when the IP software delivers the UDP user datagram to the UDP layer, it has already
+dropped the IP header.
+❑ Checksum. This field is used to detect errors over the entire user datagram (header plus data).
+The checksum is discussed in the next section.
+UDP SERVICES:
+UDP provides process-to-process communication discussed in Chapter 13 using sockets, a
+combination of IP addresses and port numbers. Several port numbers used by UDP are shown in
+Table 1.
+Table 1: Port numbers used by UDP
+Connectionless Services:
+As mentioned previously, UDP provides a connectionless service. This means that each user
+datagram sent by UDP is an independent datagram. There is no relationship between the different
+user datagrams even if they are coming from the same source process and going to the same
+destination program. The user datagrams are not numbered. Also, there is no connection
+establishment and no connection termination as is the case for TCP. This means that each user
+datagram can travel on a different path.
+Computer Networks Lab 4
+Flow Control:
+UDP is a very simple protocol. There is no flow control, and hence no window mechanism. The
+receiver may overflow with incoming messages. The lack of flow control means that the process
+using UDP should provide for this service, if needed.
+Error Control:
+There is no error control mechanism in UDP except for the checksum. This means that the sender
+does not know if a message has been lost or duplicated. When the receiver detects an error
+through the checksum, the user datagram is silently dis- carded. The lack of error control means
+that the process using UDP should provide for this service if needed.
+Checksum:
+UDP checksum calculation is different from the one for IP. Here the checksum includes three
+sections: a pseudo header, the UDP header, and the data coming from the application layer. The
+pseudo header is the part of the header of the IP packet in which the user datagram is to be
+encapsulated with some fields filled with 0s (see Figure 14.3)
+If the checksum does not include the pseudoheader, a user datagram may arrive safe and sound.
+However, if the IP header is corrupted, it may be delivered to the wrong host. The protocol field
+is added to ensure that the packet belongs to UDP, and not to TCP. We will see later that if a
+process can use either UDP or TCP, the destination port number can be the same. The value of
+the protocol field for UDP is 17. If this value is changed during transmission, the checksum
+calculation at the receiver will detect it and UDP drops the packet. It is not delivered to the
+wrong protocol. Note the similarities between the pseudoheader fields and thelast 12 bytes of the
+IP header.
+Computer Networks Lab 5
+Figure 2: UDP Pseudo Header
+Encapsulation:
+When a process has a message to send through UDP, it passes the message to UDP along with a
+pair of socket addresses and the length of data. UDP receives the data and adds the UDP header.
+UDP then passes the user datagram to IP with the socket addresses. IP adds its own header, using
+the value 17 in the protocol field, indicating that the data has come from the UDP protocol. The
+IP datagram is then passed to the data link layer. The data link layer receives the IP datagram,
+adds its own header (and possibly a trailer), and passes it to the physical layer. The physical layer
+encodes the bits into electrical or optical signals and sends it to the remote machine.
+De-encapsulation:
+When the message arrives at the destination host, the physical layer decodes the signals into bits
+and passes it to the data link layer. The data link layer uses the header (and the trailer) to check
+the data. If there is no error, the header and trailer are dropped and the datagram is passed to IP.
+The IP software does its own checking. If there is no error, the header is dropped and the user
+datagram is passed to UDP with the sender and receiver IP addresses. UDP uses the checksum to
+check the entire user datagram. If there is no error, the header is dropped and the application data
+along with the sender socket address is passed to the process. The sender socket address is passed
+Computer Networks Lab 6
+to the process in case it needs to respond to the message received. When a process has a message
+to send through UDP, it passes the message to UDP along with a pair of socket addresses and the
+length of data. UDP receives the data and adds the UDP header. UDP then passes the user
+datagram to IP with the socket addresses. IP adds its own header, using the value 17 in the
+protocol field, indicating that the data has come from the UDP protocol. The IP datagram is then
+passed to the data link layer. The data link layer receives the IP datagram, adds its own header
+(and possibly a trailer), and passes it to the physical layer. The physical layer encodes the bits
+into electrical or optical signals and sends it to the remote machine.
+Multiplexing:
+At the sender site, there may be several processes that need to send user datagrams However,
+there is only one UDP. This is a many-to-one relationship and requires multiplexing. UDP
+accepts messages from different processes, differentiated by their assigned port numbers. After
+adding the header, UDP passes the user datagram to IP.
+De-multiplexing:
+At the receiver site, there is only one UDP. However, we may have many processes that can
+receive user datagrams. This is a one-to-many relationship and requires demultiplexing. UDP
+receives user datagrams from IP. After error checking and dropping of the header, UDP delivers
+each message to the appropriate process based on the port numbers.
+UDP APPLICATIONS:
+The following shows some typical applications that can benefit more from the services of UDP
+than from those of TCP.
+❑ UDP is suitable for a process that requires simple request-response communication with little
+concern for flow and error control. It is not usually used for a process such as FTP that needs to
+send bulk data.
+❑ UDP is suitable for a process with internal flow and error-control mechanisms. For example,
+the Trivial File Transfer Protocol (TFTP) process includes flow and error control. It can easily
+use UDP.
+❑ UDP is a suitable transport protocol for multicasting. Multicasting capability is embedded in
+the UDP software but not in the TCP software.
+❑ UDP is used for management processes such as SNMP.
+❑ UDP is used for some route updating protocols such as Routing Information Protocol (RIP) 
+Computer Networks Lab 7
+❑ UDP is normally used for real-time applications that cannot tolerate uneven delay between
+sections of a received message.
+Algorithm:
+Server Program
+1. Open the Server Socket:
+ServerSocket server = new ServerSocket( PORT );
+2. Wait for the Client Request:
+Socket client = server.accept();
+3. Create I/O streams for communicating to the clientDataInputStream is = new
+DataInputStream(client.getInputStream());
+DataOutputStreamos = new DataOutputStream(client.getOutputStream());
+4. Perform communication with client
+Receive from client: String line = is.readLine();
+Send to client: os.writeBytes(“Hello\n”)
+5. Close socket:
+client.close();
+Client Program
+1. Create a Socket Object:
+Socket client = new Socket(server, port_id);
+2. Create I/O streams for communicating with the server.
+is = new DataInputStream(client.getInputStream());
+os = new DataOutputStream(client.getOutputStream());
+3. Perform I/O or communication with the server:
+Receive data from the server: String line = is.readLine();
+Send data to the server: os.writeBytes(“Hello\n”);
+4. Close the socket when done:
+5. client.close();
+Computer Networks Lab 8
+Conclusion:
+UDP (User Datagram Protocol) is an alternative communications protocol to Transmission
+Control Protocol (TCP) used primarily for establishing low-latency and loss tolerating
+connections between applications on the Internet. Both UDP and TCP run on top of the Internet
+Protocol (IP).
+Thus we have successfully implemented the socket programming for UDP using C.
+
+
+
+
+
+
+
+
+Write a program using TCP socket for wired network for following
+a. Say Hello to Each other ( For all students)
+b. File transfer ( For all students)
+c. Calculator (Arithmetic) (50% students)
+d. Calculator (Trigonometry) (50% students)
+Demonstrate the packets captured traces using Wireshark Packet Analyzer Tool for peer to
+peer mode.
+Theory:
+Socket:
+Sockets allow communication between two different processes on the same or different machines.
+To be more precise, it's a way to talk to other computers using standard Unix file descriptors. In
+Unix, every I/O action is done by writing or reading a file descriptor. A file descriptor is just an
+integer associated with an open file and it can be a network connection, a text file, a terminal, or
+something else.
+Socket Types
+There are four types sockets available to the users. The first two are most commonly used and the
+last two are rarely used.
+Processes are presumed to communicate only between sockets of the same type but there is no
+restriction that prevents communication between sockets of different types.
+ Stream Sockets − Delivery in a networked environment is guaranteed. If you send through
+the stream socket three items "A, B, C", they will arrive in the same order − "A, B, C".
+These sockets use TCP (Transmission Control Protocol) for data transmission. If delivery is
+impossible, the sender receives an error indicator. Data records do not have any boundaries.
+ Datagram Sockets − Delivery in a networked environment is not guaranteed. They're
+connectionless because you don't need to have an open connection as in Stream Sockets −
+you build a packet with the destination information and send it out. They use UDP (User
+Datagram Protocol).
+ Raw Sockets − These provide users access to the underlying communication protocols,
+which support socket abstractions. These sockets are normally datagram oriented, though
+their exact characteristics are dependent on the interface provided by the protocol. Raw
+sockets are not intended for the general user; they have been provided mainly for those
+interested in developing new communication protocols, or for gaining access to some of the
+more cryptic facilities of an existing protocol.
+ Sequenced Packet Sockets − They are similar to a stream socket, with the exception that
+record boundaries are preserved. This interface is provided only as a part of the Network
+Systems (NS) socket abstraction, and is very important in most serious NS applications.
+Sequenced-packet sockets allow the user to manipulate the Sequence Packet Protocol (SPP)
+or Internet Datagram Protocol (IDP) headers on a packet or a group of packets, either by
+
+writing a prototype header along with whatever data is to be sent, or by specifying a default
+header to be used with all outgoing data, and allows the user to receive the headers on
+incoming packets.
+What is socket programming?
+Socket programming is a way of connecting two nodes on a network to communicate with each
+other. One socket(node) listens on a particular port at an IP, while other socket reaches out to the
+other to form a connection. Server forms the listener socket while client reaches out to the server.
+
+State diagram for server and client model
+
+Header Files :
+netinet/in.h Defines Internet constants and structures.
+arpa/nameser.h Contains Internet name server information.
+netdb.h Contains data definitions for socket subroutines.
+resolv.h Contains resolver global definitions and variables.
+sys/socket.h Contains data definitions and socket structures.
+sys/socketvar.h Defines the kernel structure per socket and contains buffer queues.
+sys/types.h Contains data type definitions.
+sys/un.h Defines structures for the UNIX interprocess communication
+
+domain.
+
+sys/ndd_var.h Defines structures for the AIX Network Device Driver (NDD)
+
+domain.
+
+sys/atmsock.h Contains constants and structures for the Asynchronous Transfer
+
+Mode (ATM) protocol in the AIX NDD domain.
+
+Stages for server
+1. Socket creation:
+int sockfd = socket(domain, type, protocol)
+sockfd: socket descriptor, an integer (like a file-handle)
+domain: integer, communication domain e.g., AF_INET (IPv4 protocol) , AF_INET6 (IPv6
+protocol)
+type: communication type
+SOCK_STREAM: TCP(reliable, connection oriented)
+SOCK_DGRAM: UDP(unreliable, connectionless)
+protocol: Protocol value for Internet Protocol(IP), which is 0. This is the same number
+which appears on protocol field in the IP header of a packet.(man protocols for more details)
+
+2. Bind:
+int bind(int sockfd, const struct sockaddr *addr,
+socklen_t addrlen);
+After creation of the socket, bind function binds the socket to the address and port number specified
+in addr(custom data structure). In the example code, we bind the server to the localhost, hence we
+use INADDR_ANY to specify the IP address.
+
+3. Listen:
+int listen(int sockfd, int backlog);
+It puts the server socket in a passive mode, where it waits for the client to approach the server to
+make a connection. The backlog, defines the maximum length to which the queue of pending
+connections for sockfd may grow. If a connection request arrives when the queue is full, the client
+may receive an error with an indication of ECONNREFUSED.
+
+4. Accept:
+int new_socket= accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
+It extracts the first connection request on the queue of pending connections for the listening socket,
+sockfd, creates a new connected socket, and returns a new file descriptor referring to that socket. At
+this point, connection is established between client and server, and they are ready to transfer data.
+Stages for Client
+1. Socket connection: Exactly same as that of server’s socket creation
+2. Connect:
+
+int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
+The connect() system call connects the socket referred to by the
+
+memset(void *str, int c, size_t n)
+Parameters
+• str -- This is a pointer to the block of memory to fill.
+• c -- This is the value to be set. The value is passed as an int, but the function fills the block
+of memory using the unsigned char conversion of this value.
+• n -- This is the number of bytes to be set to the value.
+
+fopen:
+The fopen() function shall open the file whose pathname is the string pointed to by filename, and
+associates a stream with it.
+The mode argument points to a string. If the string is one of the following, the file shall be opened
+in the indicated mode. Otherwise, the behavior is undefined.
+1. r or rb : Open file for reading.
+2. w or wb : Truncate to zero length or create file for writing.
+3. a or ab : Append; open or create file for writing at end-of-file.
+4. r+ or rb+ or r+b : Open file for update (reading and writing).
+5. w+ or wb+ or w+b: Truncate to zero length or create file for update.
+6. a+ or ab+ or a+b: Append; open or create file for update, writing at end-of-file.
+
+The htonl() function converts the unsigned integer hostlong from host byte order to network byte
+order.
+The htons() function converts the unsigned short integer hostshort from host byte order to network
+byte order.
+The ntohl() function converts the unsigned integer netlong from network byte order to host byte
+order.
+The ntohs() function converts the unsigned short integer netshort from network byte order to host
+byte order.
+
+Conclusion:
+Successfully impleneted the TCP socket programming.
