@@ -1,0 +1,99 @@
+Computer Network laboratory (2015) Pattern TE Computer
+1 SNJB’s Late Sau. K. B. Jain College of Engineering, Chandwad
+AssignmentGroup-A_1
+Problem Definition:
+Setup a wired LAN using Layer 2 Switch and then IP switch of minimum four computers. It
+includes preparation of cable, testing of cable using line tester, configuration machine using
+IP addresses, testing using PING utility and demonstrate the PING packets captured traces
+using Wireshark Packet Analyzer Tool.
+Part B: Extend the same Assignment for Wireless using Access Point
+1.1 Prerequisite:
+a) IP Address
+b) OSI & TCP/IP Model
+c) Networking Devices
+1.2 Learning Objectives:
+1. Understand how to Create LAN, PAN & CAN
+2. Understand how to Create wireless LAN using Accesspoint.
+1.3 New Concepts:
+1. Crimping
+2. Accesspoint Configuration
+1.4 Theory
+1.4.1 Introduction
+A computer network is a system in which multiple computers are connected to each other
+to share information and resources.
+R
+(2)
+N
+(5)
+Oral
+(3)
+Total
+(10)
+Dated
+Sign
+Computer Network laboratory (2015) Pattern TE Computer
+2 SNJB’s Late Sau. K. B. Jain College of Engineering, Chandwad
+Characteristics of a Computer Network
+Share resources from one computer to another.
+Create files and store them in one computer, access those files from the other
+computer(s) connected over the network.
+Connect a printer, scanner, or a fax machine to one computer within the network
+and let other computers of the network use the machines available over the
+network.
+Network Cables
+Network cables are used to connect computers. The most commonly used cable is CAT
+cable & RJ-45.
+Computer Network laboratory (2015) Pattern TE Computer
+3 SNJB’s Late Sau. K. B. Jain College of Engineering, Chandwad
+Network Card
+Network card is a necessary component of a computer without which a computer cannot
+be connected over a network. It is also known as the network adapter or Network
+Interface Card (NIC). Most branded computers have network card pre-installed. Network
+cards are of two types: Internal and External Network Cards.
+Straight Through & Crossover Cable:
+The information listed here is to assist Network Administrators in the color coding of
+Ethernet cables. Please be aware that modifying Ethernet cables improperly may cause
+loss of network connectivity.
+Straight-Through Ethernet Cable
+Straight-Through Ethernet Cable
+Computer Network laboratory (2015) Pattern TE Computer
+4 SNJB’s Late Sau. K. B. Jain College of Engineering, Chandwad
+Local Area Network:
+A local area network (LAN) is a computer network that interconnects computers
+within a limited area such as a residence, school, laboratory, university campus or office
+building and has its network equipment and interconnects locally managed. By contrast, a
+wide area network (WAN) not only covers a larger geographic distance, but also generally
+involves leased telecommunication circuits or Internet links. An even greater contrast is
+the Internet, which is a system of globally connected business and personal computers.
+Ethernet and Wi-Fi are the two most common transmission technologies in use for local
+area networks.
+Wireless LAN:
+A wireless local area network (WLAN) is a wireless computer network that links two or
+more devices using a wireless distribution method (often spread-spectrum orOFDM radio)
+within a limited area such as a home, school, computer laboratory, or office building. This
+gives users the ability to move around within a local coverage area and yet still be
+connected to the network. A WLAN can also provide a connection to the wider Internet.
+Most modern WLANs are based on IEEE 802.11 standards and are marketed under the WiFi brand name.
+Benefits of Wireless LAN:
+People can access the network from where they want; they are no longer limited by
+the length of the cable
+Some places and vehicles have Wireless LANs. This means that people can access the
+internet even outside their normal work environment, for example when they ride a
+train.
+Setting up a wireless LAN can be done with one box called wireless access point or
+wireless router. This box can handle many connections at the same time. Wired
+networks require cables to be laid. This can be difficult for certain places.
+Access points can serve a varying number of computers.
+Computer Network laboratory (2015) Pattern TE Computer
+5 SNJB’s Late Sau. K. B. Jain College of Engineering, Chandwad
+1.5 Assignment Questions:
+1. Explain LAN, CAN, MAN & WAN?
+2. Write down the Difference between TCP/IP Model & OSI Model?
+3. Which Topology you have implemented in your laboratory? Why?
+4. Explain various IEEE Standared for Wireless LAN?
+5. How to Configure Wireless LAN Explain step by Step?
+6. Which Security protocols are used in Wireless LAN?
+7. Explain Ping, Traceroot, Telnet, Ipconfig Commands?
+Conclusion:
+ Hence we conclude that we have created Wired LAN & Wireless LAN
+Sucessfully.
